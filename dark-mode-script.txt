@@ -1,0 +1,29 @@
+/* Dark Mode Styles */
+.dark body { background: #1a1a1a !important; }
+.dark #sidebar, .dark aside { background: linear-gradient(to bottom, #1e3a5f, #0d1f3a) !important; }
+.dark #main-content, .dark main { background: #1a1a1a !important; }
+.dark #header, .dark header { background: #2d2d2d !important; color: #e5e5e5 !important; }
+.dark .bg-white { background: #2d2d2d !important; }
+.dark .bg-gray-50, .dark .bg-gray-100 { background: #252525 !important; }
+.dark .bg-gray-200 { background: #3a3a3a !important; }
+.dark .text-gray-800, .dark .text-gray-700, .dark .text-gray-600 { color: #e5e5e5 !important; }
+.dark .border-gray-200 { border-color: #404040 !important; }
+.dark .shadow-lg, .dark .shadow-xl { box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; }
+
+<script>
+// Listen for dark mode changes from parent
+window.addEventListener('message', (event) => {
+    if (event.data.type === 'darkMode') {
+        if (event.data.enabled) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }
+});
+
+// Check initial dark mode state
+if (localStorage.getItem('darkMode') === 'true') {
+    document.documentElement.classList.add('dark');
+}
+</script>

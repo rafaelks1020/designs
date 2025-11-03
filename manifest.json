@@ -1,0 +1,35 @@
+{
+  "name": "Galeria de Designs IEADMI",
+  "short_name": "IEADMI Gallery",
+  "description": "Galeria interativa com 7 designs profissionais para sistema IEADMI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#E60000",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "imgs/logoIeadmi.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "imgs/logoIeadmi.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "design"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Ver Favoritos",
+      "short_name": "Favoritos",
+      "description": "Visualizar designs favoritos",
+      "url": "/?filter=favorites",
+      "icons": [{ "src": "imgs/logoIeadmi.png", "sizes": "192x192" }]
+    }
+  ]
+}

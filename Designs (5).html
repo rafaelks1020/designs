@@ -27,7 +27,44 @@
         .green-accent {
             background: linear-gradient(45deg, #00A651, #22bb66);
         }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            #sidebar { 
+                width: 60px; 
+            }
+            #sidebar h1,
+            #sidebar p,
+            #sidebar nav span { 
+                display: none; 
+            }
+            #main-content { 
+                margin-left: 60px; 
+            }
+            #dashboard-main { 
+                padding: 1rem; 
+            }
+            #stats-cards { 
+                grid-template-columns: 1fr !important; 
+            }
+            #charts-section { 
+                grid-template-columns: 1fr !important; 
+            }
+            #activity-section { 
+                grid-template-columns: 1fr !important; 
+            }
+        }
+        .dark body { background: #0f172a !important; }
+        .dark #sidebar { background: #1e293b !important; }
+        .dark .bg-white, .dark .bg-gray-50 { background: #1e293b !important; }
+        .dark .text-gray-800 { color: #f1f5f9 !important; }
+        .dark .text-gray-600 { color: #cbd5e1 !important; }
+        .dark .card-shadow { box-shadow: 0 10px 30px rgba(0,0,0,0.7) !important; }
     </style>
+    <script>
+        window.addEventListener('message', (e) => { if (e.data.type === 'darkMode') document.documentElement.classList.toggle('dark', e.data.enabled); });
+        if (localStorage.getItem('darkMode') === 'true') document.documentElement.classList.add('dark');
+    </script>
     <script>
         tailwind.config = {
             theme: {

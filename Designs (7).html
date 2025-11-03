@@ -27,7 +27,40 @@
             }
         }
     </script>
-    <style>::-webkit-scrollbar { display: none;}</style>
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            #header { 
+                padding: 0.75rem 1rem; 
+            }
+            #header h1 { 
+                font-size: 1.25rem; 
+            }
+            #header-actions { 
+                display: none; 
+            }
+            #dashboard-content { 
+                padding: 1rem; 
+            }
+            #stats-grid { 
+                grid-template-columns: 1fr !important; 
+            }
+            #content-grid { 
+                grid-template-columns: 1fr !important; 
+            }
+        }
+        .dark body { background: #1a1a1a !important; }
+        .dark #sidebar { background: #2d2d2d !important; }
+        .dark #header { background: #2d2d2d !important; }
+        .dark .bg-white { background: #2d2d2d !important; }
+        .dark .text-gray-800, .dark .text-gray-600 { color: #e5e5e5 !important; }
+    </style>
+    <script>
+        window.addEventListener('message', (e) => { if (e.data.type === 'darkMode') document.documentElement.classList.toggle('dark', e.data.enabled); });
+        if (localStorage.getItem('darkMode') === 'true') document.documentElement.classList.add('dark');
+    </script>
 </head>
 <body class="bg-gradient-to-br from-white via-soft-gray to-golden-yellow/10 font-poppins">
 

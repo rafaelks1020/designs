@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Designs - IEADMI | 7 Designs Profissionais</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Galeria interativa com 7 designs profissionais para o sistema IEADMI de gerenciamento ministerial. Compare, favorite e visualize em diferentes dispositivos.">
+    <meta name="keywords" content="IEADMI, dashboard, designs, UI/UX, sistema ministerial, galeria">
+    <meta name="author" content="IEADMI">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Galeria de Designs IEADMI">
+    <meta property="og:description" content="7 designs profissionais para sistema de gerenciamento ministerial">
+    <meta property="og:image" content="imgs/logoIeadmi.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="imgs/logoIeadmi.png">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#E60000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="IEADMI Gallery">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E60000;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b30000;
+        }
+        .design-card {
+            transition: all 0.3s ease;
+        }
+        .design-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .thumbnail {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .thumbnail:hover {
+            transform: scale(1.05);
+        }
+        .thumbnail.active {
+            border: 3px solid #E60000;
+            box-shadow: 0 0 20px rgba(230, 0, 0, 0.3);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .design-info {
+            background: linear-gradient(135deg, #E60000 0%, #b30000 100%);
+        }
+        
+        /* Device Views */
+        .iframe-container.mobile-view {
+            width: 375px;
+            height: 667px;
+            margin: 0 auto;
+            border: 16px solid #1f2937;
+            border-radius: 36px;
+        }
+        
+        .iframe-container.tablet-view {
+            width: 768px;
+            height: 1024px;
+            margin: 0 auto;
+            border: 12px solid #374151;
+            border-radius: 24px;
+        }
+        
+        /* Comparison Mode */
+        .comparison-mode .iframe-container {
+            width: 48%;
+            display: inline-block;
+            margin: 1%;
+            vertical-align: top;
+        }
+        
+        /* Favorited */
+        .design-card.favorited {
+            position: relative;
+        }
+        .design-card.favorited::before {
+            content: '⭐';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        /* Zoom */
+        .iframe-container.zoomed {
+            transform: scale(1.2);
+            transition: transform 0.3s ease;
+        }
+        
+        /* Filter animations */
+        .design-card.hidden {
+            display: none;
+        }
+        
+        .filter-btn.active {
+            background: #E60000 !important;
+            color: white !important;
+        }
+        
+        /* Dark Mode */
+        .dark {
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+        .dark body {
+            background: linear-gradient(to bottom right, #1a1a1a, #2d2d2d);
+        }
+        .dark .bg-white {
+            background: #2d2d2d !important;
+        }
+        .dark .text-gray-800 {
+            color: #e5e5e5 !important;
+        }
+        .dark .text-gray-600 {
+            color: #a0a0a0 !important;
+        }
+        .dark .text-gray-700 {
+            color: #b0b0b0 !important;
+        }
+        .dark .bg-gray-50 {
+            background: #252525 !important;
+        }
+        .dark .bg-gray-100 {
+            background: #2d2d2d !important;
+        }
+        .dark .bg-gray-200 {
+            background: #3a3a3a !important;
+        }
+        .dark .border-gray-200 {
+            border-color: #404040 !important;
+        }
+        .dark .shadow-lg {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+        }
+        
+        /* Touch feedback */
+        .touch-feedback:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen transition-colors duration-300">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-md border-b-2 border-red-600 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="imgs/logoIeadmi.png" alt="IEADMI Logo" class="w-10 h-10 object-contain">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Galeria IEADMI</h1>
+                        <p class="text-xs text-gray-600 hidden md:block">7 Designs Profissionais</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <!-- Device View Buttons -->
+                    <div class="hidden md:flex items-center bg-gray-100 rounded-lg p-1">
+                        <button onclick="setDeviceView('desktop')" id="btn-desktop" class="px-2 py-1 rounded bg-red-600 text-white text-xs transition-colors" title="Desktop">
+                            <i class="fas fa-desktop"></i>
+                        </button>
+                        <button onclick="setDeviceView('tablet')" id="btn-tablet" class="px-2 py-1 rounded hover:bg-gray-200 text-xs transition-colors" title="Tablet">
+                            <i class="fas fa-tablet-alt"></i>
+                        </button>
+                        <button onclick="setDeviceView('mobile')" id="btn-mobile" class="px-2 py-1 rounded hover:bg-gray-200 text-xs transition-colors" title="Mobile">
+                            <i class="fas fa-mobile-alt"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Comparison Mode -->
+                    <button onclick="toggleComparison()" id="btn-comparison" class="hidden md:flex px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-xs items-center" title="Modo Comparação">
+                        <i class="fas fa-columns"></i>
+                    </button>
+                    
+                    <!-- Zoom -->
+                    <button onclick="toggleZoom()" id="btn-zoom" class="hidden md:flex px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-xs" title="Zoom">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    
+                    <!-- Dark Mode -->
+                    <button onclick="toggleDarkMode()" id="btn-dark-mode" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-900 text-white rounded-lg transition-colors text-xs" title="Modo Escuro">
+                        <i class="fas fa-moon" id="dark-mode-icon"></i>
+                    </button>
+                    
+                    <span class="hidden md:inline-flex px-3 py-1.5 bg-red-100 text-red-600 rounded-full font-semibold text-xs">
+                        <span id="visible-count">7</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        
+        <!-- Design Viewer -->
+        <section class="mb-12">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800" id="current-design-title">Design 1</h2>
+                        <p class="text-gray-600" id="current-design-description">Dashboard com sidebar lateral e gráficos</p>
+                    </div>
+                    <div class="flex items-center space-x-3 flex-wrap gap-2">
+                        <button 
+                            onclick="previousDesign()" 
+                            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors focus:ring-2 focus:ring-red-600 focus:outline-none"
+                            aria-label="Navegar para o design anterior"
+                            title="Design Anterior (Seta Esquerda)">
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i> Anterior
+                        </button>
+                        <span class="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold" id="design-counter" role="status" aria-live="polite">1 / 7</span>
+                        <button 
+                            onclick="nextDesign()" 
+                            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors focus:ring-2 focus:ring-red-600 focus:outline-none"
+                            aria-label="Navegar para o próximo design"
+                            title="Próximo Design (Seta Direita)">
+                            Próximo <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        </button>
+                        <button 
+                            onclick="toggleFavorite()" 
+                            id="btn-favorite" 
+                            class="px-4 py-2 bg-yellow-100 hover:bg-yellow-200 text-yellow-600 rounded-lg transition-colors focus:ring-2 focus:ring-yellow-600 focus:outline-none"
+                            aria-label="Adicionar ou remover dos favoritos"
+                            title="Favoritar Design">
+                            <i class="far fa-star" id="favorite-icon" aria-hidden="true"></i>
+                        </button>
+                        <button 
+                            onclick="openFullscreen()" 
+                            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors focus:ring-2 focus:ring-red-800 focus:outline-none"
+                            aria-label="Abrir em tela cheia"
+                            title="Modo Tela Cheia (Tecla F)">
+                            <i class="fas fa-expand" aria-hidden="true"></i> Tela Cheia
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="iframe-container" id="design-viewer">
+                    <iframe src="Designs (1).html" id="design-iframe"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thumbnails Grid -->
+        <section>
+            <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+                <h3 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-th-large mr-2 text-red-600"></i>
+                    Todos os Designs
+                </h3>
+                
+                <!-- Filters -->
+                <div class="flex items-center space-x-2 flex-wrap gap-2">
+                    <button onclick="filterDesigns('all')" class="filter-btn active px-3 py-1.5 bg-red-600 text-white rounded-lg text-xs transition-colors hover:bg-red-700">
+                        Todos
+                    </button>
+                    <button onclick="filterDesigns('sidebar')" class="filter-btn px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-xs hover:bg-gray-300 transition-colors">
+                        Sidebar
+                    </button>
+                    <button onclick="filterDesigns('header')" class="filter-btn px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-xs hover:bg-gray-300 transition-colors">
+                        Header
+                    </button>
+                    <button onclick="filterDesigns('minimal')" class="filter-btn px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-xs hover:bg-gray-300 transition-colors">
+                        Minimal
+                    </button>
+                    <button onclick="filterDesigns('colorful')" class="filter-btn px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-xs hover:bg-gray-300 transition-colors">
+                        Colorido
+                    </button>
+                    <button onclick="filterDesigns('favorites')" class="filter-btn px-3 py-1.5 bg-yellow-100 text-yellow-700 rounded-lg text-xs hover:bg-yellow-200 transition-colors">
+                        <i class="fas fa-star mr-1"></i>Favoritos (<span id="fav-count">0</span>)
+                    </button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                
+                <!-- Design 1 -->
+                <div class="design-card bg-white rounded-xl shadow-lg overflow-hidden thumbnail active" data-design="1" data-tags="sidebar,colorful" onclick="loadDesign(1)">
+                    <div class="design-info p-4 text-white">
+                        <h4 class="font-bold text-lg">Design 1</h4>
+                        <p class="text-sm opacity-90">Dashboard Clássico</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="aspect-video bg-gradient-to-br from-blue-900 to-blue-700 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-chart-pie text-white text-4xl"></i>
+                        </div>
+                        <div class="mt-3 space-y-2">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-palette mr-2 text-red-600"></i>
+                                Azul, Vermelho, Dourado
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-layer-group mr-2 text-red-600"></i>
+                                Sidebar + Gráficos
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design 2 -->
+                <div class="design-card bg-white rounded-xl shadow-lg overflow-hidden thumbnail" data-design="2" data-tags="sidebar,minimal" onclick="loadDesign(2)">
+                    <div class="design-info p-4 text-white">
+                        <h4 class="font-bold text-lg">Design 2</h4>
+                        <p class="text-sm opacity-90">Minimalista Moderno</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="aspect-video bg-gradient-to-br from-gray-100 to-yellow-50 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-tachometer-alt text-red-600 text-4xl"></i>
+                        </div>
+                        <div class="mt-3 space-y-2">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-palette mr-2 text-red-600"></i>
+                                Branco, Vermelho, Dourado
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-layer-group mr-2 text-red-600"></i>
+                                Cards Gradiente
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design 3 -->
+                <div class="design-card bg-white rounded-xl shadow-lg overflow-hidden thumbnail" data-design="3" data-tags="header,colorful" onclick="loadDesign(3)">
+                    <div class="design-info p-4 text-white">
+                        <h4 class="font-bold text-lg">Design 3</h4>
+                        <p class="text-sm opacity-90">Header Superior</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="aspect-video bg-gradient-to-br from-red-600 to-yellow-400 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe-americas text-white text-4xl"></i>
+                        </div>
+                        <div class="mt-3 space-y-2">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-palette mr-2 text-red-600"></i>
+                                Vermelho, Verde, Dourado
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-layer-group mr-2 text-red-600"></i>
+                                Navegação Horizontal
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design 4 -->
+                <div class="design-card bg-white rounded-xl shadow-lg overflow-hidden thumbnail" data-design="4" data-tags="sidebar,colorful" onclick="loadDesign(4)">
+                    <div class="design-info p-4 text-white">
+                        <h4 class="font-bold text-lg">Design 4</h4>
+                        <p class="text-sm opacity-90">Corporativo Elegante</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="aspect-video bg-gradient-to-br from-blue-900 to-blue-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-book-open text-yellow-300 text-4xl"></i>
+                        </div>
+                        <div class="mt-3 space-y-2">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-palette mr-2 text-red-600"></i>
+                                Azul Escuro, Dourado
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-layer-group mr-2 text-red-600"></i>
+                                Layout Profissional
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design 5 -->
+                <div class="design-card bg-white rounded-xl shadow-lg overflow-hidden thumbnail" data-design="5" data-tags="sidebar,minimal" onclick="loadDesign(5)">
+                    <div class="design-info p-4 text-white">
+                        <h4 class="font-bold text-lg">Design 5</h4>
+                        <p class="text-sm opacity-90">Clean & Sofisticado</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="aspect-video bg-gradient-to-br from-white to-yellow-50 rounded-lg flex items-center justify-center border-2 border-gray-200">
+                            <i class="fas fa-bible text-red-600 text-4xl"></i>
+                        </div>
+                        <div class="mt-3 space-y-2">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-palette mr-2 text-red-600"></i>
+                                Branco, Vermelho, Gradientes
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-layer-group mr-2 text-red-600"></i>
+                                Cards com Sombras
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design 6 -->
+                <div class="design-card bg-white rounded-xl shadow-lg overflow-hidden thumbnail" data-design="6" data-tags="sidebar,minimal" onclick="loadDesign(6)">
+                    <div class="design-info p-4 text-white">
+                        <h4 class="font-bold text-lg">Design 6</h4>
+                        <p class="text-sm opacity-90">Sidebar Expansível</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="aspect-video bg-gradient-to-br from-blue-800 to-blue-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-bars text-yellow-300 text-4xl"></i>
+                        </div>
+                        <div class="mt-3 space-y-2">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-palette mr-2 text-red-600"></i>
+                                Azul Profundo, Dourado
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-layer-group mr-2 text-red-600"></i>
+                                Menu Hover Expansível
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design 7 -->
+                <div class="design-card bg-white rounded-xl shadow-lg overflow-hidden thumbnail" data-design="7" data-tags="sidebar,minimal" onclick="loadDesign(7)">
+                    <div class="design-info p-4 text-white">
+                        <h4 class="font-bold text-lg">Design 7</h4>
+                        <p class="text-sm opacity-90">Ultra Minimalista</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="aspect-video bg-gradient-to-br from-gray-50 to-yellow-50 rounded-lg flex items-center justify-center border-2 border-gray-200">
+                            <i class="fas fa-home text-red-600 text-4xl"></i>
+                        </div>
+                        <div class="mt-3 space-y-2">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-palette mr-2 text-red-600"></i>
+                                Branco, Vermelho, Minimalista
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-layer-group mr-2 text-red-600"></i>
+                                Sidebar Compacta
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Fullscreen Modal -->
+    <div id="fullscreen-modal" class="modal">
+        <button onclick="closeFullscreen()" class="absolute top-4 right-4 bg-white hover:bg-gray-100 text-gray-800 px-4 py-2 rounded-lg shadow-lg z-10">
+            <i class="fas fa-times mr-2"></i>Fechar
+        </button>
+        <div class="w-full h-full p-8">
+            <iframe id="fullscreen-iframe" class="w-full h-full rounded-lg shadow-2xl"></iframe>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="container mx-auto px-6 py-6">
+            <div class="flex items-center justify-between">
+                <p class="text-gray-600">
+                    <i class="fas fa-fire text-red-600 mr-2"></i>
+                    IEADMI - Sistema de Gerenciamento Ministerial
+                </p>
+                <p class="text-gray-500 text-sm">
+                    7 designs disponíveis para visualização
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentDesign = 1;
+        const totalDesigns = 7;
+        let currentDeviceView = 'desktop';
+        let isComparisonMode = false;
+        let isZoomed = false;
+        let favorites = JSON.parse(localStorage.getItem('ieadmi-favorites') || '[]');
+
+        const designInfo = {
+            1: {
+                title: "Design 1 - Dashboard Clássico",
+                description: "Dashboard com sidebar lateral azul, gráficos Highcharts e cards estatísticos"
+            },
+            2: {
+                title: "Design 2 - Minimalista Moderno",
+                description: "Layout limpo com cards gradiente e ações rápidas"
+            },
+            3: {
+                title: "Design 3 - Header Superior",
+                description: "Navegação horizontal no topo com sidebar lateral e gráficos"
+            },
+            4: {
+                title: "Design 4 - Corporativo Elegante",
+                description: "Design profissional com cores azul escuro e dourado"
+            },
+            5: {
+                title: "Design 5 - Clean & Sofisticado",
+                description: "Interface clean com gradientes suaves e cards com sombras"
+            },
+            6: {
+                title: "Design 6 - Sidebar Expansível",
+                description: "Menu lateral que expande ao passar o mouse"
+            },
+            7: {
+                title: "Design 7 - Ultra Minimalista",
+                description: "Design extremamente limpo com sidebar compacta de ícones"
+            }
+        };
+
+        function loadDesign(designNumber) {
+            try {
+                currentDesign = designNumber;
+                const iframe = document.getElementById('design-iframe');
+                const viewer = document.getElementById('design-viewer');
+                
+                // Show loading state
+                viewer.classList.add('opacity-50');
+                viewer.style.pointerEvents = 'none';
+                
+                // Load iframe
+                iframe.src = `Designs (${designNumber}).html`;
+                
+                // Handle load success
+                iframe.onload = function() {
+                    viewer.classList.remove('opacity-50');
+                    viewer.style.pointerEvents = 'auto';
+                    
+                    // Sync dark mode with newly loaded iframe
+                    setTimeout(() => syncDarkModeToIframes(), 100);
+                };
+                
+                // Handle load error
+                iframe.onerror = function() {
+                    viewer.classList.remove('opacity-50');
+                    viewer.style.pointerEvents = 'auto';
+                    showNotification('Erro ao carregar design. Tente novamente.', 'error');
+                };
+                
+                // Update info
+                document.getElementById('current-design-title').textContent = designInfo[designNumber].title;
+                document.getElementById('current-design-description').textContent = designInfo[designNumber].description;
+                document.getElementById('design-counter').textContent = `${designNumber} / ${totalDesigns}`;
+                
+                // Update thumbnails
+                document.querySelectorAll('.thumbnail').forEach(thumb => {
+                    thumb.classList.remove('active');
+                });
+                const activeThumb = document.querySelector(`[data-design="${designNumber}"]`);
+                if (activeThumb) {
+                    activeThumb.classList.add('active');
+                }
+                
+                // Scroll to viewer
+                document.getElementById('design-viewer').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+            } catch (error) {
+                console.error('Erro ao carregar design:', error);
+                showNotification('Erro inesperado. Por favor, recarregue a página.', 'error');
+            }
+        }
+        
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 animate-slideIn ${
+                type === 'error' ? 'bg-red-600 text-white' : 
+                type === 'success' ? 'bg-green-600 text-white' : 
+                'bg-blue-600 text-white'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function nextDesign() {
+            currentDesign = currentDesign >= totalDesigns ? 1 : currentDesign + 1;
+            loadDesign(currentDesign);
+        }
+
+        function previousDesign() {
+            currentDesign = currentDesign <= 1 ? totalDesigns : currentDesign - 1;
+            loadDesign(currentDesign);
+        }
+
+        function openFullscreen() {
+            const modal = document.getElementById('fullscreen-modal');
+            const fullscreenIframe = document.getElementById('fullscreen-iframe');
+            fullscreenIframe.src = `Designs (${currentDesign}).html`;
+            modal.classList.add('active');
+        }
+
+        function closeFullscreen() {
+            const modal = document.getElementById('fullscreen-modal');
+            modal.classList.remove('active');
+            document.getElementById('fullscreen-iframe').src = '';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') {
+                nextDesign();
+            } else if (e.key === 'ArrowLeft') {
+                previousDesign();
+            } else if (e.key === 'Escape') {
+                closeFullscreen();
+            } else if (e.key === 'f' || e.key === 'F') {
+                openFullscreen();
+            }
+        });
+
+        // Close modal on click outside
+        document.getElementById('fullscreen-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeFullscreen();
+            }
+        });
+        
+        // ===== NOVAS FUNCIONALIDADES =====
+        
+        // Device View Toggle
+        function setDeviceView(view) {
+            currentDeviceView = view;
+            const viewer = document.getElementById('design-viewer');
+            
+            // Remove all view classes
+            viewer.classList.remove('mobile-view', 'tablet-view');
+            
+            // Add appropriate class
+            if (view === 'mobile') {
+                viewer.classList.add('mobile-view');
+            } else if (view === 'tablet') {
+                viewer.classList.add('tablet-view');
+            }
+            
+            // Update button states
+            document.getElementById('btn-desktop').className = 'px-3 py-2 rounded text-sm transition-colors ' + (view === 'desktop' ? 'bg-red-600 text-white' : 'hover:bg-gray-200');
+            document.getElementById('btn-tablet').className = 'px-3 py-2 rounded text-sm transition-colors ' + (view === 'tablet' ? 'bg-red-600 text-white' : 'hover:bg-gray-200');
+            document.getElementById('btn-mobile').className = 'px-3 py-2 rounded text-sm transition-colors ' + (view === 'mobile' ? 'bg-red-600 text-white' : 'hover:bg-gray-200');
+        }
+        
+        // Comparison Mode
+        function toggleComparison() {
+            isComparisonMode = !isComparisonMode;
+            const section = document.querySelector('section.mb-12');
+            const btn = document.getElementById('btn-comparison');
+            
+            if (isComparisonMode) {
+                section.classList.add('comparison-mode');
+                btn.classList.add('bg-green-600');
+                btn.classList.remove('bg-blue-600');
+                btn.innerHTML = '<i class="fas fa-check mr-1"></i>Comparando';
+                
+                // Add second iframe
+                const viewer = document.getElementById('design-viewer');
+                if (!document.getElementById('design-iframe-2')) {
+                    const iframe2 = document.createElement('div');
+                    iframe2.className = 'iframe-container';
+                    iframe2.id = 'design-viewer-2';
+                    iframe2.innerHTML = '<iframe src="Designs (2).html" id="design-iframe-2"></iframe>';
+                    viewer.parentNode.appendChild(iframe2);
+                }
+            } else {
+                section.classList.remove('comparison-mode');
+                btn.classList.remove('bg-green-600');
+                btn.classList.add('bg-blue-600');
+                btn.innerHTML = '<i class="fas fa-columns mr-1"></i>Comparar';
+                
+                // Remove second iframe
+                const viewer2 = document.getElementById('design-viewer-2');
+                if (viewer2) viewer2.remove();
+            }
+        }
+        
+        // Zoom Toggle
+        function toggleZoom() {
+            isZoomed = !isZoomed;
+            const viewer = document.getElementById('design-viewer');
+            const btn = document.getElementById('btn-zoom');
+            
+            if (isZoomed) {
+                viewer.classList.add('zoomed');
+                btn.innerHTML = '<i class="fas fa-search-minus"></i>';
+            } else {
+                viewer.classList.remove('zoomed');
+                btn.innerHTML = '<i class="fas fa-search-plus"></i>';
+            }
+        }
+        
+        // Favorites System
+        function toggleFavorite() {
+            const index = favorites.indexOf(currentDesign);
+            const icon = document.getElementById('favorite-icon');
+            const card = document.querySelector(`[data-design="${currentDesign}"]`);
+            
+            if (index > -1) {
+                favorites.splice(index, 1);
+                icon.className = 'far fa-star';
+                card.classList.remove('favorited');
+            } else {
+                favorites.push(currentDesign);
+                icon.className = 'fas fa-star';
+                card.classList.add('favorited');
+            }
+            
+            localStorage.setItem('ieadmi-favorites', JSON.stringify(favorites));
+            updateFavoriteCount();
+        }
+        
+        function updateFavoriteCount() {
+            document.getElementById('fav-count').textContent = favorites.length;
+        }
+        
+        function updateFavoriteIcon() {
+            const icon = document.getElementById('favorite-icon');
+            if (favorites.includes(currentDesign)) {
+                icon.className = 'fas fa-star';
+            } else {
+                icon.className = 'far fa-star';
+            }
+        }
+        
+        // Filter Designs
+        function filterDesigns(filter) {
+            const cards = document.querySelectorAll('.design-card');
+            let visibleCount = 0;
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                const tags = card.dataset.tags || '';
+                const designNum = parseInt(card.dataset.design);
+                let show = false;
+                
+                if (filter === 'all') {
+                    show = true;
+                } else if (filter === 'favorites') {
+                    show = favorites.includes(designNum);
+                } else {
+                    show = tags.includes(filter);
+                }
+                
+                if (show) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            
+            document.getElementById('visible-count').textContent = visibleCount;
+        }
+        
+        // Update loadDesign to include favorite icon update
+        const originalLoadDesign = loadDesign;
+        loadDesign = function(designNumber) {
+            originalLoadDesign(designNumber);
+            updateFavoriteIcon();
+        };
+        
+        // Initialize favorites on load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFavoriteCount();
+            updateFavoriteIcon();
+            
+            // Mark favorited cards
+            favorites.forEach(fav => {
+                const card = document.querySelector(`[data-design="${fav}"]`);
+                if (card) card.classList.add('favorited');
+            });
+            
+            // Initialize PWA
+            initPWA();
+            
+            // Initialize Dark Mode
+            initDarkMode();
+            
+            // Initialize Touch Gestures
+            initTouchGestures();
+            
+            // Initialize Analytics
+            initAnalytics();
+        });
+        
+        // ===== PWA IMPLEMENTATION =====
+        function initPWA() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((registration) => {
+                        console.log('✅ Service Worker registrado:', registration);
+                        showNotification('App instalável! Adicione à tela inicial.', 'success');
+                    })
+                    .catch((error) => {
+                        console.error('❌ Erro ao registrar Service Worker:', error);
+                    });
+            }
+            
+            // Install prompt
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                
+                // Show install button
+                const installBtn = document.createElement('button');
+                installBtn.className = 'fixed bottom-4 right-4 px-6 py-3 bg-red-600 text-white rounded-lg shadow-lg z-50 hover:bg-red-700 transition-colors';
+                installBtn.innerHTML = '<i class="fas fa-download mr-2"></i>Instalar App';
+                installBtn.onclick = async () => {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`User response: ${outcome}`);
+                    installBtn.remove();
+                    deferredPrompt = null;
+                };
+                document.body.appendChild(installBtn);
+                
+                setTimeout(() => installBtn.remove(), 10000);
+            });
+        }
+        
+        // ===== DARK MODE =====
+        let isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        function initDarkMode() {
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+                updateDarkModeIcon();
+            }
+        }
+        
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', isDarkMode);
+            updateDarkModeIcon();
+            
+            // Sync with all iframes
+            syncDarkModeToIframes();
+            
+            showNotification(
+                isDarkMode ? 'Modo escuro ativado em todos os designs' : 'Modo claro ativado', 
+                'success'
+            );
+            trackEvent('dark_mode', { enabled: isDarkMode });
+        }
+        
+        function syncDarkModeToIframes() {
+            const iframes = document.querySelectorAll('iframe');
+            iframes.forEach(iframe => {
+                try {
+                    if (iframe.contentWindow) {
+                        iframe.contentWindow.postMessage({
+                            type: 'darkMode',
+                            enabled: isDarkMode
+                        }, '*');
+                    }
+                } catch (e) {
+                    console.log('Iframe sync:', e);
+                }
+            });
+        }
+        
+        function updateDarkModeIcon() {
+            const icon = document.getElementById('dark-mode-icon');
+            if (icon) {
+                icon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+        
+        // ===== TOUCH GESTURES =====
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+        
+        function initTouchGestures() {
+            const viewer = document.getElementById('design-viewer');
+            if (!viewer) return;
+            
+            viewer.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+            
+            viewer.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
+                handleGesture();
+            }, { passive: true });
+        }
+        
+        function handleGesture() {
+            const swipeThreshold = 50;
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+            
+            // Horizontal swipe (more significant than vertical)
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX > swipeThreshold) {
+                    // Swipe right - previous design
+                    previousDesign();
+                    showNotification('← Design anterior', 'info');
+                    trackEvent('swipe', { direction: 'right' });
+                } else if (diffX < -swipeThreshold) {
+                    // Swipe left - next design
+                    nextDesign();
+                    showNotification('Próximo design →', 'info');
+                    trackEvent('swipe', { direction: 'left' });
+                }
+            }
+        }
+        
+        // ===== ANALYTICS (Simple Local) =====
+        const analytics = {
+            sessions: JSON.parse(localStorage.getItem('analytics') || '{}'),
+            
+            init() {
+                if (!this.sessions.totalVisits) {
+                    this.sessions = {
+                        totalVisits: 0,
+                        designViews: {},
+                        features: {},
+                        lastVisit: null
+                    };
+                }
+                this.sessions.totalVisits++;
+                this.sessions.lastVisit = new Date().toISOString();
+                this.save();
+            },
+            
+            trackDesignView(designId) {
+                this.sessions.designViews[designId] = (this.sessions.designViews[designId] || 0) + 1;
+                this.save();
+            },
+            
+            trackFeature(feature) {
+                this.sessions.features[feature] = (this.sessions.features[feature] || 0) + 1;
+                this.save();
+            },
+            
+            save() {
+                localStorage.setItem('analytics', JSON.stringify(this.sessions));
+            },
+            
+            getReport() {
+                return {
+                    totalVisits: this.sessions.totalVisits,
+                    mostViewedDesign: this.getMostViewed(),
+                    mostUsedFeature: this.getMostUsedFeature(),
+                    lastVisit: this.sessions.lastVisit
+                };
+            },
+            
+            getMostViewed() {
+                const views = this.sessions.designViews;
+                return Object.keys(views).reduce((a, b) => views[a] > views[b] ? a : b, '1');
+            },
+            
+            getMostUsedFeature() {
+                const features = this.sessions.features;
+                if (Object.keys(features).length === 0) return 'Nenhuma';
+                return Object.keys(features).reduce((a, b) => features[a] > features[b] ? a : b);
+            }
+        };
+        
+        function initAnalytics() {
+            analytics.init();
+            console.log('📊 Analytics Report:', analytics.getReport());
+        }
+        
+        function trackEvent(eventName, data = {}) {
+            analytics.trackFeature(eventName);
+            console.log(`📊 Event: ${eventName}`, data);
+        }
+        
+        // Update loadDesign to track views
+        const originalLoadDesignFunc = loadDesign;
+        loadDesign = function(designNumber) {
+            originalLoadDesignFunc(designNumber);
+            analytics.trackDesignView(designNumber);
+            trackEvent('design_view', { designId: designNumber });
+        };
+        
+        // Track feature usage
+        const originalToggleFavorite = toggleFavorite;
+        toggleFavorite = function() {
+            originalToggleFavorite();
+            trackEvent('favorite_toggle');
+        };
+        
+        const originalToggleComparison = toggleComparison;
+        toggleComparison = function() {
+            originalToggleComparison();
+            trackEvent('comparison_mode');
+        };
+        
+        const originalToggleZoom = toggleZoom;
+        toggleZoom = function() {
+            originalToggleZoom();
+            trackEvent('zoom');
+        };
+        
+        const originalSetDeviceView = setDeviceView;
+        setDeviceView = function(view) {
+            originalSetDeviceView(view);
+            trackEvent('device_view', { view });
+        };
+        
+        // Console command to view analytics
+        window.viewAnalytics = function() {
+            console.table(analytics.sessions.designViews);
+            console.table(analytics.sessions.features);
+            console.log('📊 Full Report:', analytics.getReport());
+        };
+        
+        console.log('💡 Dica: Digite viewAnalytics() no console para ver estatísticas!');
+    </script>
+
+</body>
+</html>

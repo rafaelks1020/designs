@@ -47,7 +47,43 @@
             min-width: 20px;
             text-align: center;
         }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            #header { 
+                left: 16px; 
+                padding: 0.75rem; 
+            }
+            #header h1 { 
+                font-size: 1rem; 
+            }
+            #header p { 
+                font-size: 0.75rem; 
+            }
+            #main-content { 
+                margin-left: 16px; 
+                margin-top: 60px; 
+                padding: 1rem; 
+            }
+            #stats-section { 
+                grid-template-columns: 1fr !important; 
+            }
+            #charts-section { 
+                grid-template-columns: 1fr !important; 
+            }
+        }
+        .dark body { background: #0f172a !important; }
+        .dark #sidebar { background: linear-gradient(to bottom, #1e293b, #0f172a) !important; }
+        .dark #header { background: #1e293b !important; }
+        .dark .bg-white, .dark .bg-gray-50 { background: #1e293b !important; }
+        .dark .text-gray-800 { color: #f1f5f9 !important; }
+        .dark .text-gray-600 { color: #cbd5e1 !important; }
+        .dark .shadow-sm { box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important; }
     </style>
+    <script>
+        window.addEventListener('message', (e) => { if (e.data.type === 'darkMode') document.documentElement.classList.toggle('dark', e.data.enabled); });
+        if (localStorage.getItem('darkMode') === 'true') document.documentElement.classList.add('dark');
+    </script>
 </head>
 <body class="bg-gray-50 font-poppins">
 

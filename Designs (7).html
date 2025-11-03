@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fire-red': '#E60000',
+                        'golden-yellow': '#FFD300',
+                        'hope-green': '#00A651',
+                        'soft-gray': '#EEEEEE',
+                        'spiritual-blue': '#7B9BB8'
+                    },
+                    fontFamily: {
+                        'bebas': ['Bebas Neue', 'cursive'],
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>::-webkit-scrollbar { display: none;}</style>
+</head>
+<body class="bg-gradient-to-br from-white via-soft-gray to-golden-yellow/10 font-poppins">
+
+<div id="main-container" class="flex h-screen">
+    <aside id="sidebar" class="w-16 bg-white/90 backdrop-blur-sm border-r border-gray-200 shadow-lg flex flex-col items-center py-6">
+        <div id="logo-container" class="mb-8">
+            <img src="imgs/logoIeadmi.png" alt="IEADMI Logo" class="w-10 h-10 object-contain">
+        </div>
+        
+        <nav id="sidebar-nav" class="flex flex-col space-y-4">
+            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-lg bg-fire-red text-white shadow-md transition-all hover:scale-105">
+                <i class="fas fa-home text-sm"></i>
+            </a>
+            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 transition-all hover:scale-105">
+                <i class="fas fa-users text-sm"></i>
+            </a>
+            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 transition-all hover:scale-105">
+                <i class="fas fa-church text-sm"></i>
+            </a>
+            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 transition-all hover:scale-105">
+                <i class="fas fa-globe text-sm"></i>
+            </a>
+            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 transition-all hover:scale-105">
+                <i class="fas fa-chart-bar text-sm"></i>
+            </a>
+            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 transition-all hover:scale-105">
+                <i class="fas fa-cog text-sm"></i>
+            </a>
+        </nav>
+    </aside>
+
+    <div id="main-content" class="flex-1 flex flex-col">
+        <header id="header" class="bg-white/80 backdrop-blur-sm border-b border-gray-200 px-8 py-4 flex items-center justify-between">
+            <div id="header-title" class="flex items-center space-x-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-golden-yellow to-golden-yellow/80 rounded-full flex items-center justify-center">
+                        <i class="fas fa-globe text-white text-sm"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bebas text-2xl text-gray-800 tracking-wide">IEADMI MISSÕES</h1>
+                        <p class="text-xs text-gray-500 -mt-1">Sistema Administrativo</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="header-actions" class="flex items-center space-x-4">
+                <button class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 transition-all">
+                    <i class="fas fa-bell text-sm"></i>
+                </button>
+                <div class="flex items-center space-x-3">
+                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="User" class="w-8 h-8 rounded-full object-cover">
+                    <div class="text-right">
+                        <p class="text-sm font-medium text-gray-800">Pastor João</p>
+                        <p class="text-xs text-gray-500">Administrador</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main id="dashboard-content" class="flex-1 p-8 overflow-y-auto">
+            <div id="welcome-section" class="mb-8">
+                <h2 class="font-bebas text-3xl text-gray-800 mb-2">PAINEL ADMINISTRATIVO</h2>
+                <p class="text-gray-600">Gerencie ministros, congregações e missões com eficiência</p>
+            </div>
+
+            <div id="stats-grid" class="grid grid-cols-4 gap-6 mb-8">
+                <div id="ministers-card" class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-fire-red/10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-fire-red text-lg"></i>
+                        </div>
+                        <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">+12%</span>
+                    </div>
+                    <h3 class="font-bebas text-2xl text-gray-800 mb-1">1,247</h3>
+                    <p class="text-gray-600 text-sm">Ministros Ativos</p>
+                </div>
+
+                <div id="congregations-card" class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-golden-yellow/10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-church text-golden-yellow text-lg"></i>
+                        </div>
+                        <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">+5%</span>
+                    </div>
+                    <h3 class="font-bebas text-2xl text-gray-800 mb-1">89</h3>
+                    <p class="text-gray-600 text-sm">Congregações</p>
+                </div>
+
+                <div id="missions-card" class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-hope-green/10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-globe text-hope-green text-lg"></i>
+                        </div>
+                        <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">+8%</span>
+                    </div>
+                    <h3 class="font-bebas text-2xl text-gray-800 mb-1">156</h3>
+                    <p class="text-gray-600 text-sm">Missões Ativas</p>
+                </div>
+
+                <div id="events-card" class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-spiritual-blue/10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-calendar text-spiritual-blue text-lg"></i>
+                        </div>
+                        <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">+3%</span>
+                    </div>
+                    <h3 class="font-bebas text-2xl text-gray-800 mb-1">24</h3>
+                    <p class="text-gray-600 text-sm">Eventos Mensais</p>
+                </div>
+            </div>
+
+            <div id="content-grid" class="grid grid-cols-3 gap-6">
+                <div id="recent-ministers" class="col-span-2 bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-bebas text-xl text-gray-800">MINISTROS RECENTES</h3>
+                        <button class="text-fire-red text-sm font-medium hover:underline">Ver todos</button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-all">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="Minister" class="w-10 h-10 rounded-full object-cover">
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-800">Pastor Carlos Silva</p>
+                                <p class="text-sm text-gray-600">Igreja Central - São Paulo</p>
+                            </div>
+                            <span class="text-xs bg-hope-green/10 text-hope-green px-2 py-1 rounded-full">Ativo</span>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-all">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Minister" class="w-10 h-10 rounded-full object-cover">
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-800">Pastora Maria Santos</p>
+                                <p class="text-sm text-gray-600">Igreja Nova Vida - Rio de Janeiro</p>
+                            </div>
+                            <span class="text-xs bg-hope-green/10 text-hope-green px-2 py-1 rounded-full">Ativo</span>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-all">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" alt="Minister" class="w-10 h-10 rounded-full object-cover">
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-800">Pastor André Lima</p>
+                                <p class="text-sm text-gray-600">Igreja Missões - Brasília</p>
+                            </div>
+                            <span class="text-xs bg-golden-yellow/10 text-golden-yellow px-2 py-1 rounded-full">Pendente</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="quick-actions" class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <h3 class="font-bebas text-xl text-gray-800 mb-6">AÇÕES RÁPIDAS</h3>
+                    
+                    <div class="space-y-3">
+                        <button class="w-full bg-fire-red text-white p-3 rounded-lg font-medium hover:bg-fire-red/90 transition-all flex items-center justify-center space-x-2">
+                            <i class="fas fa-plus text-sm"></i>
+                            <span>Novo Ministro</span>
+                        </button>
+                        
+                        <button class="w-full bg-golden-yellow text-gray-800 p-3 rounded-lg font-medium hover:bg-golden-yellow/90 transition-all flex items-center justify-center space-x-2">
+                            <i class="fas fa-church text-sm"></i>
+                            <span>Nova Congregação</span>
+                        </button>
+                        
+                        <button class="w-full bg-hope-green text-white p-3 rounded-lg font-medium hover:bg-hope-green/90 transition-all flex items-center justify-center space-x-2">
+                            <i class="fas fa-globe text-sm"></i>
+                            <span>Nova Missão</span>
+                        </button>
+                        
+                        <button class="w-full border border-gray-200 text-gray-700 p-3 rounded-lg font-medium hover:bg-gray-50 transition-all flex items-center justify-center space-x-2">
+                            <i class="fas fa-file-alt text-sm"></i>
+                            <span>Relatórios</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

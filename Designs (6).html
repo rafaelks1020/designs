@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'deep-blue': '#1E3A5F',
+                        'fire-red': '#E60000',
+                        'golden-yellow': '#FFD300',
+                        'light-olive': '#6BA368'
+                    },
+                    fontFamily: {
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        /* Garantir que o conteúdo não seja coberto pela sidebar expandida */
+        #main-content {
+            transition: margin-left 0.3s ease;
+        }
+        /* Sidebar icons visibility */
+        #sidebar {
+            overflow-x: hidden;
+        }
+        #sidebar nav a {
+            position: relative;
+            overflow: hidden;
+        }
+        #sidebar nav a i {
+            min-width: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-poppins">
+
+<!-- Header -->
+<header id="header" class="bg-white shadow-sm border-b border-gray-200 fixed top-0 left-16 right-0 z-50">
+    <div class="flex items-center justify-between px-6 py-4">
+        <div class="flex items-center space-x-4">
+            <img src="imgs/logoIeadmi.png" alt="IEADMI Logo" class="w-10 h-10 object-contain">
+            <div>
+                <h1 class="font-montserrat font-extrabold text-deep-blue text-xl">IEADMI</h1>
+                <p class="text-xs text-gray-600 font-medium">SISTEMA DE MISSÕES</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+            <div class="relative">
+                <button class="p-2 text-gray-600 hover:text-deep-blue transition-colors">
+                    <i class="fas fa-bell text-lg"></i>
+                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-fire-red text-white text-xs rounded-full flex items-center justify-center">3</span>
+                </button>
+            </div>
+            <div class="flex items-center space-x-3">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Admin" class="w-10 h-10 rounded-full object-cover">
+                <div class="hidden md:block">
+                    <p class="font-semibold text-deep-blue text-sm">Pastor João Silva</p>
+                    <p class="text-xs text-gray-600">Administrador</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Sidebar -->
+<aside id="sidebar" class="fixed left-0 top-0 bottom-0 w-16 bg-gradient-to-b from-deep-blue to-blue-800 shadow-lg hover:w-64 transition-all duration-300 group z-50">
+    <div class="p-3 border-b border-blue-700 mb-4 flex items-center justify-center">
+        <img src="imgs/logoIeadmi.png" alt="IEADMI Logo" class="w-10 h-10 object-contain">
+    </div>
+    <nav class="space-y-1 px-1">
+        <a href="#" class="flex items-center py-3 px-2 rounded-lg bg-blue-700 text-white hover:bg-blue-600 transition-colors">
+            <i class="fas fa-chart-pie text-lg w-12 text-center flex-shrink-0"></i>
+            <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Dashboard</span>
+        </a>
+        <a href="#" class="flex items-center py-3 px-2 rounded-lg text-blue-200 hover:bg-blue-700 hover:text-white transition-colors">
+            <i class="fas fa-users text-lg w-12 text-center flex-shrink-0"></i>
+            <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Ministros</span>
+        </a>
+        <a href="#" class="flex items-center py-3 px-2 rounded-lg text-blue-200 hover:bg-blue-700 hover:text-white transition-colors">
+            <i class="fas fa-church text-lg w-12 text-center flex-shrink-0"></i>
+            <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Congregações</span>
+        </a>
+        <a href="#" class="flex items-center py-3 px-2 rounded-lg text-blue-200 hover:bg-blue-700 hover:text-white transition-colors">
+            <i class="fas fa-globe-americas text-lg w-12 text-center flex-shrink-0"></i>
+            <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Missões</span>
+        </a>
+        <a href="#" class="flex items-center py-3 px-2 rounded-lg text-blue-200 hover:bg-blue-700 hover:text-white transition-colors">
+            <i class="fas fa-calendar-alt text-lg w-12 text-center flex-shrink-0"></i>
+            <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Eventos</span>
+        </a>
+        <a href="#" class="flex items-center py-3 px-2 rounded-lg text-blue-200 hover:bg-blue-700 hover:text-white transition-colors">
+            <i class="fas fa-chart-bar text-lg w-12 text-center flex-shrink-0"></i>
+            <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Relatórios</span>
+        </a>
+        <a href="#" class="flex items-center py-3 px-2 rounded-lg text-blue-200 hover:bg-blue-700 hover:text-white transition-colors">
+            <i class="fas fa-cog text-lg w-12 text-center flex-shrink-0"></i>
+            <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Configurações</span>
+        </a>
+    </nav>
+</aside>
+
+<!-- Main Content -->
+<main id="main-content" class="ml-16 mt-16 p-6">
+    
+    <!-- Welcome Section -->
+    <section id="welcome-section" class="mb-8">
+        <div class="bg-gradient-to-r from-deep-blue to-blue-700 rounded-2xl p-8 text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-golden-yellow opacity-10 rounded-full -translate-y-16 translate-x-16"></div>
+            <div class="relative z-10">
+                <h2 class="font-montserrat font-extrabold text-3xl mb-2">Bem-vindo ao IEADMI</h2>
+                <p class="text-blue-100 text-lg">Sistema de Gerenciamento de Ministros e Missões</p>
+                <div class="flex items-center mt-4 space-x-6">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-clock text-golden-yellow"></i>
+                        <span class="text-sm">Última atualização: Hoje, 14:30</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-globe text-golden-yellow"></i>
+                        <span class="text-sm">47 Missões Ativas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Cards -->
+    <section id="stats-section" class="mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Ministers Card -->
+            <div id="ministers-card" class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-deep-blue to-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-users text-white text-xl"></i>
+                    </div>
+                    <span class="text-light-olive text-sm font-semibold">+12%</span>
+                </div>
+                <h3 class="font-semibold text-gray-600 text-sm mb-1">Total de Ministros</h3>
+                <p class="font-montserrat font-extrabold text-3xl text-deep-blue">1,247</p>
+            </div>
+
+            <!-- Congregations Card -->
+            <div id="congregations-card" class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-fire-red to-red-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-church text-white text-xl"></i>
+                    </div>
+                    <span class="text-light-olive text-sm font-semibold">+8%</span>
+                </div>
+                <h3 class="font-semibold text-gray-600 text-sm mb-1">Congregações</h3>
+                <p class="font-montserrat font-extrabold text-3xl text-deep-blue">89</p>
+            </div>
+
+            <!-- Missions Card -->
+            <div id="missions-card" class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-golden-yellow to-yellow-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-globe-americas text-white text-xl"></i>
+                    </div>
+                    <span class="text-light-olive text-sm font-semibold">+15%</span>
+                </div>
+                <h3 class="font-semibold text-gray-600 text-sm mb-1">Missões Ativas</h3>
+                <p class="font-montserrat font-extrabold text-3xl text-deep-blue">47</p>
+            </div>
+
+            <!-- Events Card -->
+            <div id="events-card" class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-light-olive to-green-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-calendar-alt text-white text-xl"></i>
+                    </div>
+                    <span class="text-light-olive text-sm font-semibold">+23%</span>
+                </div>
+                <h3 class="font-semibold text-gray-600 text-sm mb-1">Eventos este Mês</h3>
+                <p class="font-montserrat font-extrabold text-3xl text-deep-blue">24</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section id="charts-section" class="mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Growth Chart -->
+            <div id="growth-chart-container" class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 class="font-montserrat font-bold text-deep-blue text-lg mb-4">Crescimento Ministerial</h3>
+                <div id="growth-chart" class="h-80"></div>
+            </div>
+
+            <!-- Role Distribution -->
+            <div id="role-chart-container" class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 class="font-montserrat font-bold text-deep-blue text-lg mb-4">Distribuição por Função</h3>
+                <div id="role-chart" class="h-80"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Activities -->
+    <section id="activities-section" class="mb-8">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <h3 class="font-montserrat font-bold text-deep-blue text-lg mb-6">Atividades Recentes</h3>
+            <div class="space-y-4">
+                <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+                    <div class="w-10 h-10 bg-deep-blue rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-user-plus text-white text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-semibold text-gray-800">Novo ministro cadastrado</p>
+                        <p class="text-gray-600 text-sm">Pastor Carlos Mendes foi adicionado à Congregação Central</p>
+                        <p class="text-xs text-gray-500 mt-1">Há 2 horas</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+                    <div class="w-10 h-10 bg-fire-red rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-globe text-white text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-semibold text-gray-800">Nova missão iniciada</p>
+                        <p class="text-gray-600 text-sm">Missão "Luz do Mundo" começou em Moçambique</p>
+                        <p class="text-xs text-gray-500 mt-1">Há 5 horas</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+                    <div class="w-10 h-10 bg-golden-yellow rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-calendar text-white text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-semibold text-gray-800">Evento programado</p>
+                        <p class="text-gray-600 text-sm">Conferência Missionária marcada para 15 de dezembro</p>
+                        <p class="text-xs text-gray-500 mt-1">Há 1 dia</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script>
+// Growth Chart
+Highcharts.chart('growth-chart', {
+    chart: {
+        type: 'line',
+        backgroundColor: 'transparent'
+    },
+    title: {
+        text: null
+    },
+    credits: {
+        enabled: false
+    },
+    xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+        lineColor: '#e5e7eb',
+        tickColor: '#e5e7eb'
+    },
+    yAxis: {
+        title: {
+            text: 'Ministros'
+        },
+        gridLineColor: '#f3f4f6'
+    },
+    series: [{
+        name: 'Ministros Ativos',
+        data: [1100, 1120, 1140, 1160, 1180, 1195, 1210, 1225, 1235, 1242, 1247, 1250],
+        color: '#1E3A5F',
+        lineWidth: 3,
+        marker: {
+            fillColor: '#FFD300',
+            lineColor: '#1E3A5F',
+            lineWidth: 2
+        }
+    }],
+    legend: {
+        enabled: false
+    }
+});
+
+// Role Distribution Chart
+Highcharts.chart('role-chart', {
+    chart: {
+        type: 'pie',
+        backgroundColor: 'transparent'
+    },
+    title: {
+        text: null
+    },
+    credits: {
+        enabled: false
+    },
+    plotOptions: {
+        pie: {
+            innerSize: '50%',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f}%'
+            }
+        }
+    },
+    series: [{
+        name: 'Funções',
+        data: [
+            { name: 'Pastores', y: 35, color: '#1E3A5F' },
+            { name: 'Evangelistas', y: 25, color: '#E60000' },
+            { name: 'Diáconos', y: 20, color: '#FFD300' },
+            { name: 'Presbíteros', y: 15, color: '#6BA368' },
+            { name: 'Outros', y: 5, color: '#9ca3af' }
+        ]
+    }]
+});
+</script>
+
+</body>
+</html>

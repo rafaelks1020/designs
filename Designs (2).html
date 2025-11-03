@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fire-red': '#E60000',
+                        'golden-yellow': '#FFD300',
+                        'hope-green': '#00A651',
+                        'soft-gray': '#EEEEEE'
+                    },
+                    fontFamily: {
+                        'bebas': ['Bebas Neue', 'cursive'],
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>::-webkit-scrollbar { display: none;}</style>
+</head>
+<body class="font-poppins bg-gradient-to-br from-white via-soft-gray to-golden-yellow/10">
+
+<div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-white shadow-xl border-r border-soft-gray/50">
+    <div class="p-6 border-b border-soft-gray/50">
+        <div class="flex items-center space-x-3">
+            <div class="relative">
+                <img src="imgs/logoIeadmi.png" alt="IEADMI Logo" class="w-12 h-12 object-contain">
+                <div class="absolute -top-1 -right-1 w-6 h-6 bg-golden-yellow rounded-full flex items-center justify-center">
+                    <i class="fas fa-globe text-fire-red text-xs"></i>
+                </div>
+            </div>
+            <div>
+                <h1 class="font-bebas text-xl text-fire-red tracking-wider">IEADMI</h1>
+                <p class="text-xs text-gray-600 font-medium">MISSÕES</p>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="mt-8 px-4">
+        <div class="space-y-2">
+            <a href="#" class="flex items-center px-4 py-3 text-fire-red bg-fire-red/10 rounded-lg border-l-4 border-fire-red">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-soft-gray/50 rounded-lg transition-colors">
+                <i class="fas fa-users mr-3"></i>
+                <span>Ministros</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-soft-gray/50 rounded-lg transition-colors">
+                <i class="fas fa-church mr-3"></i>
+                <span>Congregações</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-soft-gray/50 rounded-lg transition-colors">
+                <i class="fas fa-map-marked-alt mr-3"></i>
+                <span>Regionais</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-soft-gray/50 rounded-lg transition-colors">
+                <i class="fas fa-calendar-alt mr-3"></i>
+                <span>Eventos</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-soft-gray/50 rounded-lg transition-colors">
+                <i class="fas fa-file-alt mr-3"></i>
+                <span>Relatórios</span>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div id="header" class="fixed top-0 left-64 right-0 bg-white/95 backdrop-blur-sm border-b border-soft-gray/50 z-10">
+    <div class="flex items-center justify-between px-8 py-4">
+        <div>
+            <h2 class="font-bebas text-2xl text-gray-800 tracking-wide">PAINEL ADMINISTRATIVO</h2>
+            <p class="text-sm text-gray-600">Sistema de Gerenciamento de Ministros</p>
+        </div>
+        <div class="flex items-center space-x-6">
+            <div class="relative">
+                <button class="p-2 text-gray-600 hover:text-fire-red transition-colors">
+                    <i class="fas fa-bell text-lg"></i>
+                </button>
+                <span class="absolute -top-1 -right-1 w-5 h-5 bg-fire-red text-white text-xs rounded-full flex items-center justify-center">3</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Profile" class="w-10 h-10 rounded-full border-2 border-golden-yellow">
+                <div>
+                    <p class="font-medium text-gray-800 text-sm">Pastor João Silva</p>
+                    <p class="text-xs text-gray-600">Administrador</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main id="main-content" class="ml-64 pt-24 p-8">
+    <div id="stats-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-gradient-to-br from-fire-red to-fire-red/80 p-6 rounded-xl text-white shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-fire-red/20 text-sm font-medium">Total de Ministros</p>
+                    <p class="text-3xl font-bold mt-2">1,247</p>
+                    <p class="text-fire-red/30 text-sm mt-1">+12% este mês</p>
+                </div>
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fas fa-users text-2xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-gradient-to-br from-golden-yellow to-golden-yellow/80 p-6 rounded-xl text-gray-800 shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-700/70 text-sm font-medium">Congregações Ativas</p>
+                    <p class="text-3xl font-bold mt-2">89</p>
+                    <p class="text-gray-700/70 text-sm mt-1">+3 novas</p>
+                </div>
+                <div class="w-16 h-16 bg-white/30 rounded-full flex items-center justify-center">
+                    <i class="fas fa-church text-2xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-gradient-to-br from-hope-green to-hope-green/80 p-6 rounded-xl text-white shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-hope-green/20 text-sm font-medium">Regionais</p>
+                    <p class="text-3xl font-bold mt-2">15</p>
+                    <p class="text-hope-green/30 text-sm mt-1">Cobertura nacional</p>
+                </div>
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fas fa-map-marked-alt text-2xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-gradient-to-br from-gray-700 to-gray-600 p-6 rounded-xl text-white shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-300 text-sm font-medium">Eventos Ativos</p>
+                    <p class="text-3xl font-bold mt-2">24</p>
+                    <p class="text-gray-300 text-sm mt-1">Este mês</p>
+                </div>
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fas fa-calendar-alt text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-content" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div id="recent-ministers" class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="font-bebas text-xl text-gray-800 tracking-wide">MINISTROS RECENTES</h3>
+                <button class="text-fire-red hover:text-fire-red/80 font-medium text-sm">Ver todos</button>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between p-4 bg-soft-gray/30 rounded-lg">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Minister" class="w-12 h-12 rounded-full">
+                        <div>
+                            <p class="font-medium text-gray-800">Pastor Carlos Santos</p>
+                            <p class="text-sm text-gray-600">Igreja Central - São Paulo</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1 bg-hope-green/20 text-hope-green rounded-full text-sm font-medium">Ativo</span>
+                </div>
+                
+                <div class="flex items-center justify-between p-4 bg-soft-gray/30 rounded-lg">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Minister" class="w-12 h-12 rounded-full">
+                        <div>
+                            <p class="font-medium text-gray-800">Pastora Maria Oliveira</p>
+                            <p class="text-sm text-gray-600">Igreja Betel - Rio de Janeiro</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1 bg-hope-green/20 text-hope-green rounded-full text-sm font-medium">Ativo</span>
+                </div>
+                
+                <div class="flex items-center justify-between p-4 bg-soft-gray/30 rounded-lg">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="Minister" class="w-12 h-12 rounded-full">
+                        <div>
+                            <p class="font-medium text-gray-800">Evangelista Pedro Lima</p>
+                            <p class="text-sm text-gray-600">Igreja Maranata - Brasília</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1 bg-golden-yellow/20 text-golden-yellow rounded-full text-sm font-medium">Pendente</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="quick-actions" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="font-bebas text-xl text-gray-800 tracking-wide mb-4">AÇÕES RÁPIDAS</h3>
+                <div class="space-y-3">
+                    <button class="w-full flex items-center justify-center px-4 py-3 bg-fire-red text-white rounded-lg hover:bg-fire-red/90 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>
+                        Novo Ministro
+                    </button>
+                    <button class="w-full flex items-center justify-center px-4 py-3 bg-golden-yellow text-gray-800 rounded-lg hover:bg-golden-yellow/90 transition-colors">
+                        <i class="fas fa-church mr-2"></i>
+                        Nova Congregação
+                    </button>
+                    <button class="w-full flex items-center justify-center px-4 py-3 bg-hope-green text-white rounded-lg hover:bg-hope-green/90 transition-colors">
+                        <i class="fas fa-calendar-plus mr-2"></i>
+                        Novo Evento
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="font-bebas text-xl text-gray-800 tracking-wide mb-4">NOTIFICAÇÕES</h3>
+                <div class="space-y-3">
+                    <div class="p-3 bg-fire-red/10 rounded-lg border-l-4 border-fire-red">
+                        <p class="text-sm font-medium text-gray-800">Reunião de Pastores</p>
+                        <p class="text-xs text-gray-600 mt-1">Hoje às 19:00</p>
+                    </div>
+                    <div class="p-3 bg-golden-yellow/10 rounded-lg border-l-4 border-golden-yellow">
+                        <p class="text-sm font-medium text-gray-800">Relatório Mensal</p>
+                        <p class="text-xs text-gray-600 mt-1">Prazo: 3 dias</p>
+                    </div>
+                    <div class="p-3 bg-hope-green/10 rounded-lg border-l-4 border-hope-green">
+                        <p class="text-sm font-medium text-gray-800">Cadastro Aprovado</p>
+                        <p class="text-xs text-gray-600 mt-1">Pastor João Ferreira</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ieadmi: {
+                            red: '#E60000',
+                            blue: '#0033A0',
+                            green: '#00A651',
+                            gold: '#FFD300',
+                            gray: '#EEEEEE'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+
+<div id="main-container" class="flex h-screen">
+    
+    <aside id="sidebar" class="w-64 bg-gradient-to-b from-ieadmi-blue to-blue-800 text-white fixed h-full">
+        <div id="logo-section" class="p-6 border-b border-blue-700">
+            <div class="flex items-center space-x-3">
+                <img src="imgs/logoIeadmi.png" alt="IEADMI Logo" class="w-10 h-10 object-contain">
+                <div>
+                    <h1 class="text-xl font-bold">IEADMI</h1>
+                    <p class="text-xs text-blue-200">Sistema Ministerial</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav id="navigation" class="mt-6">
+            <ul class="space-y-2 px-4">
+                <li>
+                    <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-blue-700 text-white">
+                        <i class="fas fa-chart-pie text-ieadmi-gold"></i>
+                        <span class="font-medium">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-users"></i>
+                        <span>Ministros</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-church"></i>
+                        <span>Congregações</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>Regionais</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-cog"></i>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main id="main-content" class="flex-1 ml-64">
+        
+        <header id="header" class="bg-white shadow-sm border-b px-8 py-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Dashboard Ministerial</h1>
+                    <p class="text-gray-600">Visão geral do sistema IEADMI</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 text-xl cursor-pointer hover:text-ieadmi-red transition-colors"></i>
+                        <span class="absolute -top-2 -right-2 bg-ieadmi-red text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="User" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p class="font-medium text-gray-800">Pastor João Silva</p>
+                            <p class="text-sm text-gray-600">Administrador</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="dashboard-content" class="p-8">
+            
+            <section id="stats-cards" class="grid grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-ieadmi-red">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Total de Ministros</p>
+                            <p class="text-3xl font-bold text-gray-800">1,247</p>
+                            <p class="text-ieadmi-green text-sm mt-1">
+                                <i class="fas fa-arrow-up"></i> +12% este mês
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 bg-ieadmi-red bg-opacity-10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-ieadmi-red text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-ieadmi-blue">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Congregações Ativas</p>
+                            <p class="text-3xl font-bold text-gray-800">89</p>
+                            <p class="text-ieadmi-green text-sm mt-1">
+                                <i class="fas fa-arrow-up"></i> +3 novas
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 bg-ieadmi-blue bg-opacity-10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-church text-ieadmi-blue text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-ieadmi-green">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Regionais</p>
+                            <p class="text-3xl font-bold text-gray-800">12</p>
+                            <p class="text-gray-500 text-sm mt-1">
+                                <i class="fas fa-minus"></i> Sem alteração
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 bg-ieadmi-green bg-opacity-10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-map-marked-alt text-ieadmi-green text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-ieadmi-gold">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Eventos Mensais</p>
+                            <p class="text-3xl font-bold text-gray-800">34</p>
+                            <p class="text-ieadmi-green text-sm mt-1">
+                                <i class="fas fa-arrow-up"></i> +8% este mês
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 bg-ieadmi-gold bg-opacity-10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-calendar-alt text-ieadmi-gold text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div id="charts-section" class="grid grid-cols-2 gap-6 mb-8">
+                <div id="growth-chart-container" class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Crescimento Ministerial</h3>
+                    <div id="growth-chart" class="h-64"></div>
+                </div>
+
+                <div id="regional-chart-container" class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Distribuição Regional</h3>
+                    <div id="regional-chart" class="h-64"></div>
+                </div>
+            </div>
+
+            <div id="activities-section" class="grid grid-cols-2 gap-6">
+                <div id="recent-ministers" class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Ministros Recém-Cadastrados</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="Minister" class="w-10 h-10 rounded-full object-cover">
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-800">Pastor Carlos Santos</p>
+                                <p class="text-sm text-gray-600">Congregação Central</p>
+                            </div>
+                            <span class="bg-ieadmi-green text-white text-xs px-2 py-1 rounded-full">Ativo</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Minister" class="w-10 h-10 rounded-full object-cover">
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-800">Missionária Ana Lima</p>
+                                <p class="text-sm text-gray-600">Regional Norte</p>
+                            </div>
+                            <span class="bg-ieadmi-blue text-white text-xs px-2 py-1 rounded-full">Pendente</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-4.jpg" alt="Minister" class="w-10 h-10 rounded-full object-cover">
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-800">Pr. Roberto Oliveira</p>
+                                <p class="text-sm text-gray-600">Congregação Vila Nova</p>
+                            </div>
+                            <span class="bg-ieadmi-green text-white text-xs px-2 py-1 rounded-full">Ativo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="upcoming-events" class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Próximos Eventos</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-12 h-12 bg-ieadmi-red bg-opacity-10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-calendar text-ieadmi-red"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-800">Conferência Missionária</p>
+                                <p class="text-sm text-gray-600">15 de Dezembro, 2024</p>
+                                <p class="text-xs text-ieadmi-blue">Regional Centro-Oeste</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-12 h-12 bg-ieadmi-gold bg-opacity-10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-users text-ieadmi-gold"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-800">Reunião de Pastores</p>
+                                <p class="text-sm text-gray-600">20 de Dezembro, 2024</p>
+                                <p class="text-xs text-ieadmi-green">Sede Nacional</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-12 h-12 bg-ieadmi-blue bg-opacity-10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-graduation-cap text-ieadmi-blue"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-800">Curso de Capacitação</p>
+                                <p class="text-sm text-gray-600">28 de Dezembro, 2024</p>
+                                <p class="text-xs text-ieadmi-red">Regional Sul</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    Highcharts.chart('growth-chart', {
+        chart: { type: 'line', backgroundColor: 'transparent' },
+        title: { text: null },
+        credits: { enabled: false },
+        xAxis: {
+            categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+            gridLineWidth: 0,
+            lineWidth: 0,
+            tickWidth: 0
+        },
+        yAxis: {
+            title: { text: null },
+            gridLineWidth: 1,
+            gridLineColor: '#f0f0f0'
+        },
+        legend: { enabled: false },
+        plotOptions: {
+            line: {
+                dataLabels: { enabled: false },
+                enableMouseTracking: true,
+                marker: { radius: 4 }
+            }
+        },
+        series: [{
+            name: 'Ministros',
+            data: [1180, 1195, 1210, 1225, 1235, 1247],
+            color: '#E60000'
+        }]
+    });
+
+    Highcharts.chart('regional-chart', {
+        chart: { type: 'pie', backgroundColor: 'transparent' },
+        title: { text: null },
+        credits: { enabled: false },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                },
+                showInLegend: false
+            }
+        },
+        series: [{
+            name: 'Regionais',
+            colorByPoint: true,
+            data: [{
+                name: 'Norte',
+                y: 25.5,
+                color: '#E60000'
+            }, {
+                name: 'Nordeste',
+                y: 22.1,
+                color: '#0033A0'
+            }, {
+                name: 'Centro-Oeste',
+                y: 18.4,
+                color: '#00A651'
+            }, {
+                name: 'Sudeste',
+                y: 20.8,
+                color: '#FFD300'
+            }, {
+                name: 'Sul',
+                y: 13.2,
+                color: '#666666'
+            }]
+        }]
+    });
+});
+</script>
+
+</body>
+</html>

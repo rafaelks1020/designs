@@ -30,28 +30,57 @@
         
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            #sidebar { 
-                width: 60px; 
+            body {
+                font-size: 14px !important;
             }
-            #sidebar h1,
-            #sidebar p,
-            #sidebar nav span { 
-                display: none; 
+            #sidebar { 
+                width: 45px !important; 
+                padding: 0.25rem 0 !important;
+            }
+            #sidebar > div:first-child {
+                padding: 0.25rem !important;
+                text-align: center !important;
+            }
+            #sidebar img {
+                width: 30px !important;
+                height: 30px !important;
+            }
+            #sidebar h1, #sidebar p, #sidebar nav span { 
+                display: none !important; 
+            }
+            #sidebar nav {
+                padding: 0 !important;
+                gap: 0.25rem !important;
+            }
+            #sidebar nav a {
+                padding: 0.5rem 0 !important;
+                justify-content: center !important;
+                font-size: 14px !important;
             }
             #main-content { 
-                margin-left: 60px; 
+                margin-left: 45px !important; 
+                padding: 0.5rem !important; 
             }
             #dashboard-main { 
-                padding: 1rem; 
+                padding: 0.5rem !important; 
             }
             #stats-cards { 
-                grid-template-columns: 1fr !important; 
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem !important;
             }
             #charts-section { 
-                grid-template-columns: 1fr !important; 
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem !important;
             }
             #activity-section { 
-                grid-template-columns: 1fr !important; 
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem !important;
+            }
+            .text-3xl {
+                font-size: 1.5rem !important;
+            }
+            .text-2xl {
+                font-size: 1.25rem !important;
             }
         }
         .dark body { background: #0f172a !important; }

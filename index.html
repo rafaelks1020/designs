@@ -105,8 +105,8 @@
         
         /* Device Views */
         .iframe-container.mobile-view {
-            width: 375px;
-            height: 667px;
+            width: 320px;
+            height: 640px;
             margin: 0 auto;
             border: 16px solid #1f2937;
             border-radius: 36px;
@@ -126,6 +126,43 @@
             display: inline-block;
             margin: 1%;
             vertical-align: top;
+        }
+        
+        .comparison-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(230, 0, 0, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .comparison-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .comparison-controls button {
+            background: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+        }
+        
+        .comparison-controls button:hover {
+            background: #f3f4f6;
+            transform: scale(1.05);
         }
         
         /* Favorited */
@@ -203,105 +240,200 @@
         .touch-feedback:active {
             transform: scale(0.95);
         }
+        
+        /* Floating Navigation */
+        #design-info-tooltip {
+            animation: slideInLeft 0.3s ease;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Hide floating nav in comparison mode */
+        .comparison-mode ~ * .fixed.bottom-8 {
+            display: none;
+        }
+        
+        /* Floating Side Menu */
+        #floating-menu {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%) translateX(calc(100% - 8px));
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+        
+        #floating-menu:hover,
+        #floating-menu.menu-open {
+            transform: translateY(-50%) translateX(0);
+        }
+        
+        #floating-menu::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 0;
+            width: 20px;
+            height: 100%;
+        }
+
+        /* Ultra-narrow screens adjustments */
+        @media (max-width: 420px) {
+            /* Expand mobile frame to container width and reduce bevel */
+            .iframe-container.mobile-view { width: 100%; height: 600px; border-width: 8px; border-radius: 24px; }
+            /* Compact floating controls */
+            #floating-controls { padding: 8px 10px !important; }
+            #floating-controls button { width: 36px !important; height: 36px !important; }
+            #floating-controls .px-4 { padding-left: 10px !important; padding-right: 10px !important; }
+            #floating-controls .py-2 { padding-top: 6px !important; padding-bottom: 6px !important; }
+            /* Hide side menu to maximize area */
+            #floating-menu { display: none; }
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen transition-colors duration-300">
     
-    <!-- Header -->
-    <header class="bg-white shadow-md border-b-2 border-red-600 sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <img src="imgs/logoIeadmi.png" alt="IEADMI Logo" class="w-10 h-10 object-contain">
-                    <div>
-                        <h1 class="text-xl font-bold text-gray-800">Galeria IEADMI</h1>
-                        <p class="text-xs text-gray-600 hidden md:block">7 Designs Profissionais</p>
-                    </div>
+    <!-- Floating Side Menu -->
+    <div id="floating-menu" class="bg-white/95 backdrop-blur-lg shadow-2xl rounded-l-2xl border-l-4 border-red-600">
+        <div class="flex flex-col p-4 space-y-3">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2 pb-3 border-b border-gray-200">
+                <img src="imgs/logoIeadmi.png" alt="IEADMI" class="w-8 h-8">
+                <div>
+                    <h2 class="font-bold text-gray-800 text-sm">IEADMI</h2>
+                    <p class="text-xs text-gray-600">Galeria</p>
                 </div>
-                <div class="flex items-center space-x-2">
-                    <!-- Device View Buttons -->
-                    <div class="hidden md:flex items-center bg-gray-100 rounded-lg p-1">
-                        <button onclick="setDeviceView('desktop')" id="btn-desktop" class="px-2 py-1 rounded bg-red-600 text-white text-xs transition-colors" title="Desktop">
-                            <i class="fas fa-desktop"></i>
-                        </button>
-                        <button onclick="setDeviceView('tablet')" id="btn-tablet" class="px-2 py-1 rounded hover:bg-gray-200 text-xs transition-colors" title="Tablet">
-                            <i class="fas fa-tablet-alt"></i>
-                        </button>
-                        <button onclick="setDeviceView('mobile')" id="btn-mobile" class="px-2 py-1 rounded hover:bg-gray-200 text-xs transition-colors" title="Mobile">
-                            <i class="fas fa-mobile-alt"></i>
-                        </button>
-                    </div>
-                    
-                    <!-- Comparison Mode -->
-                    <button onclick="toggleComparison()" id="btn-comparison" class="hidden md:flex px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-xs items-center" title="Modo Comparação">
-                        <i class="fas fa-columns"></i>
+            </div>
+            
+            <!-- Device Views -->
+            <div class="space-y-2">
+                <p class="text-xs font-semibold text-gray-500 uppercase">Visualização</p>
+                <div class="flex flex-col space-y-1">
+                    <button onclick="setDeviceView('desktop')" id="btn-desktop" class="px-3 py-2 rounded-lg bg-red-600 text-white text-xs transition-all hover:bg-red-700 flex items-center space-x-2" title="Desktop">
+                        <i class="fas fa-desktop"></i>
+                        <span>Desktop</span>
                     </button>
-                    
-                    <!-- Zoom -->
-                    <button onclick="toggleZoom()" id="btn-zoom" class="hidden md:flex px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-xs" title="Zoom">
-                        <i class="fas fa-search-plus"></i>
+                    <button onclick="setDeviceView('tablet')" id="btn-tablet" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-xs transition-all flex items-center space-x-2" title="Tablet">
+                        <i class="fas fa-tablet-alt"></i>
+                        <span>Tablet</span>
                     </button>
-                    
-                    <!-- Dark Mode -->
-                    <button onclick="toggleDarkMode()" id="btn-dark-mode" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-900 text-white rounded-lg transition-colors text-xs" title="Modo Escuro">
-                        <i class="fas fa-moon" id="dark-mode-icon"></i>
+                    <button onclick="setDeviceView('mobile')" id="btn-mobile" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-xs transition-all flex items-center space-x-2" title="Mobile">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>Mobile</span>
                     </button>
-                    
-                    <span class="hidden md:inline-flex px-3 py-1.5 bg-red-100 text-red-600 rounded-full font-semibold text-xs">
-                        <span id="visible-count">7</span>
-                    </span>
+                </div>
+            </div>
+            
+            <!-- Tools -->
+            <div class="space-y-2 pt-2 border-t border-gray-200">
+                <p class="text-xs font-semibold text-gray-500 uppercase">Ferramentas</p>
+                <button onclick="toggleComparison()" id="btn-comparison" class="w-full px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all text-xs flex items-center space-x-2" title="Comparar">
+                    <i class="fas fa-columns"></i>
+                    <span>Comparar</span>
+                </button>
+                <button onclick="toggleZoom()" id="btn-zoom" class="w-full px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all text-xs flex items-center space-x-2" title="Zoom">
+                    <i class="fas fa-search-plus"></i>
+                    <span>Zoom</span>
+                </button>
+                <button onclick="toggleDarkMode()" id="btn-dark-mode" class="w-full px-3 py-2 bg-gray-800 hover:bg-gray-900 text-white rounded-lg transition-all text-xs flex items-center space-x-2" title="Dark Mode">
+                    <i class="fas fa-moon" id="dark-mode-icon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+            
+            <!-- Counter -->
+            <div class="pt-2 border-t border-gray-200">
+                <div class="px-3 py-2 bg-red-100 text-red-600 rounded-lg text-center">
+                    <span class="font-bold text-sm" id="visible-count">7</span>
+                    <span class="text-xs"> Designs</span>
                 </div>
             </div>
         </div>
-    </header>
+        
+        <!-- Tab indicator -->
+        <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full bg-red-600 text-white px-2 py-6 rounded-l-lg cursor-pointer">
+            <i class="fas fa-chevron-left text-xs"></i>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <main class="container mx-auto px-6 py-8">
         
         <!-- Design Viewer -->
         <section class="mb-12">
-            <div class="bg-white rounded-2xl shadow-xl p-8">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-800" id="current-design-title">Design 1</h2>
-                        <p class="text-gray-600" id="current-design-description">Dashboard com sidebar lateral e gráficos</p>
-                    </div>
-                    <div class="flex items-center space-x-3 flex-wrap gap-2">
+            <div class="bg-white rounded-2xl shadow-xl p-4">
+                <div class="iframe-container relative" id="design-viewer">
+                    <iframe src="Designs (1).html" id="design-iframe"></iframe>
+                    
+                    <!-- Floating Navigation -->
+                    <div id="floating-controls" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 bg-white rounded-full shadow-2xl px-6 py-3 flex items-center space-x-4">
                         <button 
                             onclick="previousDesign()" 
-                            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors focus:ring-2 focus:ring-red-600 focus:outline-none"
-                            aria-label="Navegar para o design anterior"
-                            title="Design Anterior (Seta Esquerda)">
-                            <i class="fas fa-chevron-left" aria-hidden="true"></i> Anterior
+                            class="w-10 h-10 bg-gray-100 hover:bg-red-600 hover:text-white rounded-full transition-all focus:ring-2 focus:ring-red-600 focus:outline-none flex items-center justify-center"
+                            aria-label="Design anterior"
+                            title="Design Anterior (←)">
+                            <i class="fas fa-chevron-left"></i>
                         </button>
-                        <span class="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold" id="design-counter" role="status" aria-live="polite">1 / 7</span>
+                        
+                        <div class="flex items-center space-x-2">
+                            <button 
+                                onclick="toggleFavorite()" 
+                                id="btn-favorite-float" 
+                                class="w-10 h-10 bg-yellow-50 hover:bg-yellow-100 text-yellow-600 rounded-full transition-all flex items-center justify-center"
+                                title="Favoritar">
+                                <i class="far fa-star" id="favorite-icon-float"></i>
+                            </button>
+                            
+                            <div class="px-4 py-2 bg-red-600 text-white rounded-full font-bold text-sm" id="design-counter-float">1/7</div>
+                            
+                            <button 
+                                onclick="openFullscreen()" 
+                                class="w-10 h-10 bg-gray-100 hover:bg-red-600 hover:text-white rounded-full transition-all flex items-center justify-center"
+                                title="Tela Cheia (F)">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                        
                         <button 
                             onclick="nextDesign()" 
-                            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors focus:ring-2 focus:ring-red-600 focus:outline-none"
-                            aria-label="Navegar para o próximo design"
-                            title="Próximo Design (Seta Direita)">
-                            Próximo <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                        </button>
-                        <button 
-                            onclick="toggleFavorite()" 
-                            id="btn-favorite" 
-                            class="px-4 py-2 bg-yellow-100 hover:bg-yellow-200 text-yellow-600 rounded-lg transition-colors focus:ring-2 focus:ring-yellow-600 focus:outline-none"
-                            aria-label="Adicionar ou remover dos favoritos"
-                            title="Favoritar Design">
-                            <i class="far fa-star" id="favorite-icon" aria-hidden="true"></i>
-                        </button>
-                        <button 
-                            onclick="openFullscreen()" 
-                            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors focus:ring-2 focus:ring-red-800 focus:outline-none"
-                            aria-label="Abrir em tela cheia"
-                            title="Modo Tela Cheia (Tecla F)">
-                            <i class="fas fa-expand" aria-hidden="true"></i> Tela Cheia
+                            class="w-10 h-10 bg-gray-100 hover:bg-red-600 hover:text-white rounded-full transition-all focus:ring-2 focus:ring-red-600 focus:outline-none flex items-center justify-center"
+                            aria-label="Próximo design"
+                            title="Próximo Design (→)">
+                            <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
-                </div>
-                
-                <div class="iframe-container" id="design-viewer">
-                    <iframe src="Designs (1).html" id="design-iframe"></iframe>
+                    
+                    <!-- Design Info Tooltip (minimized) -->
+                    <div class="absolute top-4 left-4 bg-black/70 backdrop-blur-sm rounded-lg shadow-lg px-3 py-2 max-w-xs transition-all" 
+                         id="design-info-tooltip">
+                        <div class="flex items-center justify-between space-x-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-white font-bold text-xs" id="current-design-title-short">Design 1</span>
+                            </div>
+                            <button onclick="hideTooltip()" class="text-white/70 hover:text-white text-xs" title="Esconder (H)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <p class="text-xs text-white/80 mt-1 hidden" id="current-design-description-full">Dashboard com sidebar lateral</p>
+                    </div>
+                    
+                    <!-- Show Tooltip Button (when hidden) -->
+                    <button 
+                        onclick="showTooltip()" 
+                        id="show-tooltip-btn"
+                        class="hidden absolute top-4 left-4 w-8 h-8 bg-black/70 backdrop-blur-sm rounded-full shadow-lg hover:bg-black/80 transition-all flex items-center justify-center"
+                        title="Mostrar info (H)">
+                        <i class="fas fa-info text-white text-xs"></i>
+                    </button>
                 </div>
             </div>
         </section>
@@ -586,7 +718,8 @@
                     viewer.classList.remove('opacity-50');
                     viewer.style.pointerEvents = 'auto';
                     
-                    // Sync dark mode with newly loaded iframe
+                    // Apply universal mobile fixes and sync dark mode
+                    try { applyMobileFixesToIframe(iframe); } catch (e) { console.warn('Mobile fix inject failed', e); }
                     setTimeout(() => syncDarkModeToIframes(), 100);
                 };
                 
@@ -598,9 +731,14 @@
                 };
                 
                 // Update info
-                document.getElementById('current-design-title').textContent = designInfo[designNumber].title;
-                document.getElementById('current-design-description').textContent = designInfo[designNumber].description;
-                document.getElementById('design-counter').textContent = `${designNumber} / ${totalDesigns}`;
+                const titleShort = document.getElementById('current-design-title-short');
+                const descFull = document.getElementById('current-design-description-full');
+                if (titleShort) titleShort.textContent = designInfo[designNumber].title;
+                if (descFull) descFull.textContent = designInfo[designNumber].description;
+                
+                // Update floating counter
+                const floatCounter = document.getElementById('design-counter-float');
+                if (floatCounter) floatCounter.textContent = `${designNumber}/7`;
                 
                 // Update thumbnails
                 document.querySelectorAll('.thumbnail').forEach(thumb => {
@@ -694,6 +832,7 @@
             // Add appropriate class
             if (view === 'mobile') {
                 viewer.classList.add('mobile-view');
+                try { hideTooltip(); } catch (e) {}
             } else if (view === 'tablet') {
                 viewer.classList.add('tablet-view');
             }
@@ -705,6 +844,9 @@
         }
         
         // Comparison Mode
+        let comparisonDesign1 = 1;
+        let comparisonDesign2 = 2;
+        
         function toggleComparison() {
             isComparisonMode = !isComparisonMode;
             const section = document.querySelector('section.mb-12');
@@ -714,27 +856,102 @@
                 section.classList.add('comparison-mode');
                 btn.classList.add('bg-green-600');
                 btn.classList.remove('bg-blue-600');
-                btn.innerHTML = '<i class="fas fa-check mr-1"></i>Comparando';
+                btn.innerHTML = '<i class="fas fa-check"></i>';
                 
-                // Add second iframe
-                const viewer = document.getElementById('design-viewer');
-                if (!document.getElementById('design-iframe-2')) {
-                    const iframe2 = document.createElement('div');
-                    iframe2.className = 'iframe-container';
-                    iframe2.id = 'design-viewer-2';
-                    iframe2.innerHTML = '<iframe src="Designs (2).html" id="design-iframe-2"></iframe>';
-                    viewer.parentNode.appendChild(iframe2);
+                // Add labels and controls to first viewer
+                const viewer1 = document.getElementById('design-viewer');
+                if (!document.getElementById('comparison-label-1')) {
+                    const label1 = document.createElement('div');
+                    label1.id = 'comparison-label-1';
+                    label1.className = 'comparison-label';
+                    label1.innerHTML = `Design ${comparisonDesign1}`;
+                    viewer1.appendChild(label1);
+                    
+                    const controls1 = document.createElement('div');
+                    controls1.className = 'comparison-controls';
+                    controls1.innerHTML = `
+                        <button onclick="changeComparisonDesign(1, -1)" title="Design Anterior">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button onclick="changeComparisonDesign(1, 1)" title="Próximo Design">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    `;
+                    viewer1.appendChild(controls1);
                 }
+                
+                // Add second iframe with controls
+                if (!document.getElementById('design-viewer-2')) {
+                    const viewer2 = document.createElement('div');
+                    viewer2.className = 'iframe-container';
+                    viewer2.id = 'design-viewer-2';
+                    viewer2.innerHTML = `
+                        <div class="comparison-label" id="comparison-label-2">Design ${comparisonDesign2}</div>
+                        <div class="comparison-controls">
+                            <button onclick="changeComparisonDesign(2, -1)" title="Design Anterior">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button onclick="changeComparisonDesign(2, 1)" title="Próximo Design">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <iframe src="Designs (${comparisonDesign2}).html" id="design-iframe-2"></iframe>
+                    `;
+                    viewer1.parentNode.appendChild(viewer2);
+                    // Apply mobile fixes after second iframe loads
+                    const iframe2 = document.getElementById('design-iframe-2');
+                    if (iframe2) {
+                        iframe2.onload = function() { try { applyMobileFixesToIframe(iframe2); } catch(e){} };
+                        // Fallback in case it's already loaded
+                        setTimeout(() => { try { applyMobileFixesToIframe(iframe2); } catch(e){} }, 300);
+                    }
+                }
+                
+                showNotification('Modo Comparação: Use as setas para trocar os designs', 'info');
             } else {
                 section.classList.remove('comparison-mode');
                 btn.classList.remove('bg-green-600');
                 btn.classList.add('bg-blue-600');
-                btn.innerHTML = '<i class="fas fa-columns mr-1"></i>Comparar';
+                btn.innerHTML = '<i class="fas fa-columns"></i>';
+                
+                // Remove labels and controls
+                const label1 = document.getElementById('comparison-label-1');
+                if (label1) label1.remove();
+                const viewer1 = document.getElementById('design-viewer');
+                const controls1 = viewer1.querySelector('.comparison-controls');
+                if (controls1) controls1.remove();
                 
                 // Remove second iframe
                 const viewer2 = document.getElementById('design-viewer-2');
                 if (viewer2) viewer2.remove();
             }
+        }
+        
+        function changeComparisonDesign(viewerNumber, direction) {
+            if (viewerNumber === 1) {
+                comparisonDesign1 += direction;
+                if (comparisonDesign1 < 1) comparisonDesign1 = totalDesigns;
+                if (comparisonDesign1 > totalDesigns) comparisonDesign1 = 1;
+                
+                document.getElementById('design-iframe').src = `Designs (${comparisonDesign1}).html`;
+                document.getElementById('comparison-label-1').textContent = `Design ${comparisonDesign1}`;
+                
+                // Update main info
+                const titleShort = document.getElementById('current-design-title-short');
+                const descFull = document.getElementById('current-design-description-full');
+                if (titleShort) titleShort.textContent = designInfo[comparisonDesign1].title;
+                if (descFull) descFull.textContent = designInfo[comparisonDesign1].description;
+            } else {
+                comparisonDesign2 += direction;
+                if (comparisonDesign2 < 1) comparisonDesign2 = totalDesigns;
+                if (comparisonDesign2 > totalDesigns) comparisonDesign2 = 1;
+                
+                document.getElementById('design-iframe-2').src = `Designs (${comparisonDesign2}).html`;
+                document.getElementById('comparison-label-2').textContent = `Design ${comparisonDesign2}`;
+            }
+            
+            // Sync dark mode
+            setTimeout(() => syncDarkModeToIframes(), 100);
         }
         
         // Zoom Toggle
@@ -777,12 +994,12 @@
         }
         
         function updateFavoriteIcon() {
-            const icon = document.getElementById('favorite-icon');
-            if (favorites.includes(currentDesign)) {
-                icon.className = 'fas fa-star';
-            } else {
-                icon.className = 'far fa-star';
-            }
+            const isFav = favorites.includes(currentDesign);
+            const iconClass = isFav ? 'fas fa-star' : 'far fa-star';
+            
+            // Update floating icon
+            const iconFloat = document.getElementById('favorite-icon-float');
+            if (iconFloat) iconFloat.className = iconClass;
         }
         
         // Filter Designs
@@ -849,6 +1066,42 @@
             
             // Initialize Analytics
             initAnalytics();
+            
+            // Apply mobile fixes to initial iframe as soon as it's ready
+            const initialIframe = document.getElementById('design-iframe');
+            if (initialIframe) {
+                if (initialIframe.contentDocument && initialIframe.contentDocument.readyState === 'complete') {
+                    try { applyMobileFixesToIframe(initialIframe); } catch (e) { console.warn(e); }
+                } else {
+                    initialIframe.addEventListener('load', () => { try { applyMobileFixesToIframe(initialIframe); } catch (e) {} });
+                }
+            }
+        });
+        
+        // ===== TOOLTIP TOGGLE =====
+        let tooltipVisible = true;
+        
+        function hideTooltip() {
+            tooltipVisible = false;
+            document.getElementById('design-info-tooltip').classList.add('hidden');
+            document.getElementById('show-tooltip-btn').classList.remove('hidden');
+        }
+        
+        function showTooltip() {
+            tooltipVisible = true;
+            document.getElementById('design-info-tooltip').classList.remove('hidden');
+            document.getElementById('show-tooltip-btn').classList.add('hidden');
+        }
+        
+        // Keyboard shortcut: H to toggle tooltip
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'h' || e.key === 'H') {
+                if (tooltipVisible) {
+                    hideTooltip();
+                } else {
+                    showTooltip();
+                }
+            }
         });
         
         // ===== PWA IMPLEMENTATION =====
@@ -933,6 +1186,104 @@
             const icon = document.getElementById('dark-mode-icon');
             if (icon) {
                 icon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+        
+        // ===== UNIVERSAL MOBILE FIXES (IFRAMES) =====
+        function getMobileFixCSS() {
+            return `
+            :root{--ieadmi-sb:40px}
+            html,body{max-width:100% !important; width:100% !important; min-width:0 !important; overflow-x:hidden !important}
+            body{ padding-bottom:96px !important; font-size:14px !important }
+            
+            /* Sidebar compact */
+            #sidebar, .sidebar, aside[id*="sidebar"], aside.sidebar, aside[role="navigation"], aside{
+                width:var(--ieadmi-sb) !important; min-width:var(--ieadmi-sb) !important; padding:4px 0 !important;
+            }
+            /* Prevent hover expansion on mobile */
+            #sidebar:hover, .sidebar:hover, aside:hover{ width:var(--ieadmi-sb) !important; }
+            #sidebar #logo-section h1, #sidebar #logo-section p, #sidebar nav span, .sidebar .label, aside nav span{ display:none !important }
+            #sidebar nav, .sidebar nav, aside nav{ padding:0 !important; gap:4px !important }
+            #sidebar nav a, .sidebar nav a, aside nav a{ justify-content:center !important; padding:8px 0 !important; width:100% !important }
+            #logo-section img, #sidebar img.logo, aside img{ max-width:30px !important; max-height:30px !important }
+            
+            /* Content shift */
+            #main-content, main, #dashboard-content, #dashboard-main, #content, .content, #admin-layout + *, #dashboard, #root, #app, .wrapper, .container {
+                margin-left: var(--ieadmi-sb) !important; padding-left: 8px !important; padding-right: 8px !important;
+                width: calc(100% - var(--ieadmi-sb)) !important; min-width:0 !important; overflow-x:hidden !important;
+            }
+            header, #header{ margin-left: var(--ieadmi-sb) !important; left: var(--ieadmi-sb) !important; padding: 12px !important; width: calc(100% - var(--ieadmi-sb)) !important }
+            
+            /* Grids to single column */
+            [class*="grid"], .cards-grid, .stats-grid, .content-grid{ grid-template-columns: 1fr !important; gap: 12px !important }
+            
+            /* Cards normalization */
+            .card, .stat-card, .info-card, .panel, .widget, .bg-white{ border-radius:12px !important; padding:12px !important }
+            
+            /* Hero/Banner shrink */
+            [id*="hero"], [class*="hero"], [id*="banner"], [class*="banner"], [id*="welcome"], [class*="welcome"]{
+                min-height:auto !important; height:auto !important; padding:12px !important
+            }
+            [id*="hero"] h1, [class*="hero"] h1{ font-size:1.25rem !important }
+            [id*="hero"] p, [class*="hero"] p{ font-size:0.9rem !important }
+            
+            /* Containers must not exceed viewport */
+            [class*="container"], .container{ max-width:100% !important; width:100% !important; min-width:0 !important; padding-left:8px !important; padding-right:8px !important }
+            section, main, article{ max-width:100% !important; width:100% !important; min-width:0 !important; overflow-x:hidden !important }
+
+            /* Declutter topbars: hide heavy right blocks */
+            header .right, #header .right, [id*="topbar"] .right, [class*="topbar"] .right, [class*="user"], [class*="avatar"]{
+                display:none !important;
+            }
+            
+            /* Typography */
+            h1{font-size:1.25rem !important} h2{font-size:1.1rem !important} h3{font-size:1rem !important}
+            
+            /* Media scale */
+            img, canvas, svg{ max-width:100% !important; height:auto !important }
+            
+            /* Prevent horizontal scroll anywhere */
+            *{ box-sizing:border-box }
+            div, section, main, header, article{ min-width:0 !important; max-width:100% !important }
+            .flex{ flex-wrap: wrap !important }
+            [class*="px-8"]{ padding-left:12px !important; padding-right:12px !important }
+            [class*="py-8"]{ padding-top:12px !important; padding-bottom:12px !important }
+
+            /* Extra narrow screens */
+            @media (max-width: 360px){
+              :root{ --ieadmi-sb:34px }
+              body{ font-size:13px !important }
+              header, #header{ width: calc(100% - var(--ieadmi-sb)) !important }
+              #main-content, main, #dashboard-content, #dashboard-main, #content, .content, #admin-layout + *, #dashboard, #root, #app, .wrapper, .container{
+                width: calc(100% - var(--ieadmi-sb)) !important
+              }
+            }
+            `;
+        }
+        
+        function applyMobileFixesToIframe(iframe) {
+            try {
+                const doc = iframe?.contentDocument || iframe?.contentWindow?.document;
+                if (!doc) return;
+                if (doc.getElementById('ieadmi-mobile-fixes')) return;
+                const style = doc.createElement('style');
+                style.id = 'ieadmi-mobile-fixes';
+                style.textContent = getMobileFixCSS();
+                (doc.head || doc.documentElement).appendChild(style);
+                // Ensure viewport is set for responsive behavior
+                if (!doc.querySelector('meta[name="viewport"]')) {
+                    const meta = doc.createElement('meta');
+                    meta.name = 'viewport';
+                    meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+                    (doc.head || doc.documentElement).appendChild(meta);
+                }
+                if (doc.documentElement) doc.documentElement.style.overflowX = 'hidden';
+                if (doc.body) {
+                    doc.body.style.overflowX = 'hidden';
+                    doc.body.style.minWidth = '0px';
+                }
+            } catch (e) {
+                console.warn('applyMobileFixesToIframe failed', e);
             }
         }
         
